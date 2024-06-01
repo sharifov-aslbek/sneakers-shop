@@ -14,7 +14,7 @@
          </div>
 
          <div class="actions flex items-center justify-between w-[200px]">
-            <div class="cart flex items-center gap-2">
+            <div class="cart flex items-center gap-2 cursor-pointer" @click="menuMutations">
                <img src="../assets/images/cart.svg" alt="#">
                <p>0 руб</p>
             </div>
@@ -33,8 +33,19 @@
 
 <script>
 export default {
-   
+   data() {
+      return {
+         openCartPage: false,
+      }
+   },  
+   methods: {
+      menuMutations(){
+         this.$store.dispatch('menuOpenerActions')
+      }
+   },
 }
 </script>
 
-<style></style>
+<style>
+
+</style>

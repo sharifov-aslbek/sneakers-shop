@@ -1,8 +1,31 @@
 <template>
+  <section class="forbg-card bg-black w-full h-full fixed top-0 opacity-70 z-20" v-show="getState"></section>
+  <section class="cartPage absolute right-0 top-0 bg-white w-[400px] h-[100%] z-30 py-10 px-5 flex flex-col justify-between" v-show="getState">
+      <div class="top flex justify-between">
+         <h2 class="font-bold text-2xl">Корзина</h2>
+      <img @click='menuCloser' class="cursor-pointer" src="../assets/images/close.svg" alt="#">
+      </div>
+      <div class="boxs">
+
+      </div>
+
+      <div class="price">
+        <div class="itogo flex justify-between">
+          <h4>Итого:</h4>
+          <p>руб.</p>
+        </div>
+
+        <div class="nalog flex justify-between">
+          <h4>Налог 5%: </h4>
+          <p>руб.</p>
+        </div>
+
+        <button class="btn mt-5 text-white bg-lime-500 py-3 w-full rounded-lg">Оформить заказ</button>
+      </div>
+  </section>
   <section class="slider">
     <TheSlider />
   </section>
-
   <section class="hero mt-10 mb-10">
     <div class="container">
       <div class="top flex items-center justify-between">
@@ -28,15 +51,15 @@
             </div>
 
             <div class="add cursor-pointer">
-              <img :class="{'hidden' : item.id == this.activeAdded}" @click="getId(item.id); getProduct" src="../assets/images/plus.svg" alt="#">
+              <img :class="{'hidden' : item.id == this.activeAdded}" @click="getId(item.id); getProduct; sendingProduct" src="../assets/images/plus.svg" alt="#">
               <img v-show="item.id == this.activeAdded" src="../assets/images/checked.svg" alt="#">
             </div>
           </div>
         </div>
-        {{ getProduct }}
       </div>
     </div>
   </section>
+
 </template>
 
 <script>
@@ -51,26 +74,43 @@ export default {
       inputValue: '',
       array: productsArray,
       isAdded: false,
-      activeAdded: 0
+      activeAdded: 0,
+      AllId: [],
     }
   },
   methods: {
     getId(id) {
       this.activeAdded = id
+      this.AllId.push(id)
     },  
+    sendingProduct(){
+      this.$emit('products' , this.sortingProduct)
+    },
+    menuCloser(){
+      return this.$store.commit("menuClose")
+    }
   },
   computed: {
     getFilter() {
       if(this.inputValue.length == 0) {
         return this.array
       }
-
+      
       return this.array.filter(item => item.name.indexOf(this.inputValue) > -1)
     },
     getProduct(){
-      return this.array.filter(item => item.id == this.activeAdded)
-    }
-  }
+      return this.array.filter(item => this.AllId.includes(item.id))
+    },
+    uniqueNumbers() {
+      return [...new Set(this.AllId)];
+    },
+    sortingProduct() {
+      return [...new Set(this.getProduct)]
+    },
+    getState(){
+      return this.$store.state.menu.menuOpener
+    },
+  },
 }
 </script>
 
@@ -78,4 +118,5 @@ export default {
   .hidden {
     display: none;
   }
+
 </style>

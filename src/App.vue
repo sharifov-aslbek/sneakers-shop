@@ -1,7 +1,7 @@
 <template>
     <div class="box">
       <TheNavbar />
-      <HomeView />
+      <HomeView @products="sendToNavbar" />
     </div>
 </template>
 
@@ -11,6 +11,11 @@ import HomeView from './views/HomeView.vue'
 export default {
   components: {
     TheNavbar, HomeView
+  },
+  methods: {
+    sendToNavbar(product){
+      console.log(product);
+    }
   }
 }
 </script>
