@@ -6,7 +6,7 @@
       <img @click='menuCloser' class="cursor-pointer" src="../assets/images/close.svg" alt="#">
       </div>
       <div class="boxs overflow-y-scroll">
-        <div class="box flex items-center border rounded-xl mb-5 mt-5" v-for="item in getProduct">
+        <div class="box flex items-center border rounded-xl mb-5 mt-5" v-for="item in sortingProduct" :key="item.id">
           <img class="w-[120px]" :src="item.img" alt="#">
           <div class="text">
             <h3 class="font-bold">{{ item.name }}</h3>
@@ -21,8 +21,7 @@
         <div class="itogo flex justify-between">
           <h4>Итого: {{ totalProductPrice }}</h4>
           <p>руб.</p>
-        </div>
-        {{ getProduct }}
+        </div> 
         <div class="nalog flex justify-between">
           <h4>Налог 5%: 1000 </h4>
           <p>руб.</p>
@@ -58,7 +57,8 @@
               <h3>{{ item.price }} руб.</h3>
             </div>
             <div class="add cursor-pointer">
-              <img :class="{'hidden' : item.id == this.activeAdded}" @click="getId(item.id); getProduct; sendingProduct" src="../assets/images/plus.svg" alt="#">
+              <img :class="{'hidden' : item.id == this.activeAdded}" @click="getId(item.id); productToArr(); dispatching" src="../assets/images/plus.svg" alt="#">
+              <!--  getProduct; sendingProduct to img click -->
               <img v-show="item.id == this.activeAdded" src="../assets/images/checked.svg" alt="#">
             </div>
           </div>
@@ -68,7 +68,9 @@
   </section>
 
 </template>
-
+<!-- sendingProduct(){
+      this.$emit('products' , this.sortingProduct)
+    }, -->
 <script>
 import TheSlider from '../components/TheSlider.vue'
 import productsArray from '../productsArray.js'
@@ -83,22 +85,24 @@ export default {
       isAdded: false,
       activeAdded: 0,
       AllId: [],
+      sortingProduct: [],
     }
   },
   methods: {
     getId(id) {
       this.activeAdded = id
       this.AllId.push(id)
-    },  
-    sendingProduct(){
-      this.$emit('products' , this.sortingProduct)
     },
     menuCloser(){
       return this.$store.commit("menuClose")
     },
     removeItem(id) {
-         return this.getProduct.splice(id , 1)
-        }
+        this.sortingProduct = this.sortingProduct.filter(c => c.id != id)
+        },
+    productToArr(){
+        console.log('funksiya iwlamoqda')
+        this.sortingProduct = this.array.filter(item => this.AllId.includes(item.id))
+    }
   },
   computed: {
     getFilter() {
@@ -114,14 +118,17 @@ export default {
     uniqueNumbers() {
       return [...new Set(this.AllId)];
     },
-    sortingProduct() {
-      return [...new Set(this.getProduct)]
-    },
+    // sortingProduct() {
+    //   return [...new Set(this.getProduct)]
+    // },
     getState(){
       return this.$store.state.menu.menuOpener
     },
     totalProductPrice(){
       return this.sortingProduct.reduce((sum , item) => sum + Number(item.price), 0)
+    },
+    dispatching(){
+      this.$store.dispatch("getTotalProduct" , this.totalProductPrice)
     }
   },
 }

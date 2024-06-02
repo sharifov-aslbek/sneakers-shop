@@ -16,7 +16,7 @@
          <div class="actions flex items-center justify-between w-[200px]">
             <div class="cart flex items-center gap-2 cursor-pointer" @click="menuMutations">
                <img src="../assets/images/cart.svg" alt="#">
-               <p>0 руб</p>
+               <p>{{ isPrice }} руб</p>
             </div>
 
             <div class="icons flex items-center gap-4">
@@ -37,11 +37,16 @@ export default {
       return {
          openCartPage: false,
       }
-   },  
+   }, 
+   computed: {
+      isPrice(){
+         return this.$store.state.menu.price
+      }
+   }, 
    methods: {
       menuMutations(){
          this.$store.dispatch('menuOpenerActions')
-      }
+      },
    },
 }
 </script>

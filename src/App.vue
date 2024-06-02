@@ -1,7 +1,7 @@
 <template>
     <div class="box">
       <TheNavbar />
-      <HomeView @products="sendToNavbar" />
+      <HomeView/>
     </div>
 </template>
 
@@ -12,11 +12,6 @@ export default {
   components: {
     TheNavbar, HomeView
   },
-  methods: {
-    sendToNavbar(product){
-      console.log(product);
-    }
-  }
 }
 </script>
 
