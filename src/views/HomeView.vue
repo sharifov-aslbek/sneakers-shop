@@ -5,18 +5,26 @@
          <h2 class="font-bold text-2xl">Корзина</h2>
       <img @click='menuCloser' class="cursor-pointer" src="../assets/images/close.svg" alt="#">
       </div>
-      <div class="boxs">
+      <div class="boxs overflow-y-scroll">
+        <div class="box flex items-center border rounded-xl mb-5 mt-5" v-for="item in getProduct">
+          <img class="w-[120px]" :src="item.img" alt="#">
+          <div class="text">
+            <h3 class="font-bold">{{ item.name }}</h3>
+            <p>{{ item.price }} руб.</p>
+          </div>
 
+          <img @click="removeItem(item.id)" src="../assets/images/close.svg" alt="#" class="mr-5 mt-2 cursor-pointer">
+        </div>
       </div>
 
       <div class="price">
         <div class="itogo flex justify-between">
-          <h4>Итого:</h4>
+          <h4>Итого: {{ totalProductPrice }}</h4>
           <p>руб.</p>
         </div>
-
+        {{ getProduct }}
         <div class="nalog flex justify-between">
-          <h4>Налог 5%: </h4>
+          <h4>Налог 5%: 1000 </h4>
           <p>руб.</p>
         </div>
 
@@ -49,7 +57,6 @@
               <span class="font-bold">Цена:</span>
               <h3>{{ item.price }} руб.</h3>
             </div>
-
             <div class="add cursor-pointer">
               <img :class="{'hidden' : item.id == this.activeAdded}" @click="getId(item.id); getProduct; sendingProduct" src="../assets/images/plus.svg" alt="#">
               <img v-show="item.id == this.activeAdded" src="../assets/images/checked.svg" alt="#">
@@ -88,7 +95,10 @@ export default {
     },
     menuCloser(){
       return this.$store.commit("menuClose")
-    }
+    },
+    removeItem(id) {
+         return this.getProduct.splice(id , 1)
+        }
   },
   computed: {
     getFilter() {
@@ -110,11 +120,26 @@ export default {
     getState(){
       return this.$store.state.menu.menuOpener
     },
+    totalProductPrice(){
+      return this.sortingProduct.reduce((sum , item) => sum + Number(item.price), 0)
+    }
   },
 }
 </script>
 
 <style>
+  ::-webkit-scrollbar {
+   width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+   background: rgb(63, 219, 28);
+}
+
+::-webkit-scrollbar-thumb:hover {
+   background:  rgb(33, 145, 83);
+}
+
   .hidden {
     display: none;
   }

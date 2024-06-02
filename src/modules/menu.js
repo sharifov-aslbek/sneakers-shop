@@ -14,6 +14,9 @@ const mutations = {
 const actions = {
    menuOpenerActions(context) {
       context.commit('menuOpenerMutations')
+   },
+   getTotalProduct(price){
+      console.log(price);
    }
 }
 
