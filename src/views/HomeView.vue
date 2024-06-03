@@ -33,6 +33,9 @@
   <section class="slider">
     <TheSlider />
   </section>
+  <section class="mini-slider">
+    <TheSliderMini />
+  </section>
   <section class="hero mt-10 mb-10">
     <div class="container">
       <div class="top flex items-center justify-between">
@@ -74,10 +77,11 @@
     }, -->
 <script>
 import TheSlider from '../components/TheSlider.vue'
+import TheSliderMini from '../components/TheSliderMini.vue'
 import productsArray from '../productsArray.js'
 export default {
   components: {
-    TheSlider
+    TheSlider, TheSliderMini
   },
   data() {
     return {
