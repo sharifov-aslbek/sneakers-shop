@@ -2,7 +2,7 @@
 <template>
    <header class="head bg-white pt-5">
       <div class="container flex items-center justify-between">
-         <div class="logo flex items-center justify-around gap-3">
+         <div class="logo flex items-center justify-around gap-3 cursor-pointer" @click="$router.push({name: 'home'})">
             <div class="img">
                <img src="../assets/images/logo.png" alt="#">
             </div>

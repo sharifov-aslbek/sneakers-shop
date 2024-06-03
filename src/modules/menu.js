@@ -1,6 +1,7 @@
 const state = {
    menuOpener: false,
-   price: null
+   price: null,
+   likeArray: null,
 }
 
 const mutations = {
@@ -12,6 +13,9 @@ const mutations = {
    },
    priceTostate(state, payload){
       state.price = payload
+   },
+   likeArrtoState(state , payload) {
+      state.likeArray = payload
    }
 }
 
@@ -21,6 +25,9 @@ const actions = {
    },
    getTotalProduct(context , price){
       context.commit("priceTostate" , price)
+   },
+   getLikesProducts(context , array){
+      context.commit("likeArrtoState", array )
    }
 }
 

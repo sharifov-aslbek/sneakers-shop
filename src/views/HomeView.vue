@@ -45,9 +45,10 @@
         </form>
       </div>
       <div class="boxs flex items-center flex-wrap gap-10 mt-10">
-        <div class="box border w-[260px] h-[340px] py-3 px-4 rounded-3xl" v-for="item in getFilter">
+        <div class="box border w-[260px] h-[350px] py-3 px-4 rounded-3xl" v-for="item in getFilter">
           <div class="img-action">
-            <img src="../assets/images/heart.svg" alt="#">
+            <img @click="getLikeId(item.id); likeProductToArr(); sendFavourites" :class="{'hidden' : item.id == this.activeLiked}" src="../assets/images/like-1.svg" alt="#">
+            <img v-show="item.id == this.activeLiked" src="../assets/images/like-2.svg" alt="#">
             <img :src="item.img" alt="">
           </div>
           <h2 class="title">{{ item.name }}</h2>
@@ -84,8 +85,11 @@ export default {
       array: productsArray,
       isAdded: false,
       activeAdded: 0,
+      activeLiked: 0,
       AllId: [],
+      AllLikeId: [],
       sortingProduct: [],
+      likeProducts: []
     }
   },
   methods: {
@@ -102,6 +106,13 @@ export default {
     productToArr(){
         console.log('funksiya iwlamoqda')
         this.sortingProduct = this.array.filter(item => this.AllId.includes(item.id))
+    },
+    likeProductToArr(){
+      this.likeProducts = this.array.filter(item => this.AllLikeId.includes(item.id))
+    },
+    getLikeId(id){
+      this.activeLiked = id
+      this.AllLikeId.push(id)
     }
   },
   computed: {
@@ -129,6 +140,9 @@ export default {
     },
     dispatching(){
       this.$store.dispatch("getTotalProduct" , this.totalProductPrice)
+    },
+    sendFavourites() {
+      this.$store.dispatch("getLikesProducts" , this.likeProducts)
     }
   },
 }
